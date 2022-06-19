@@ -8,6 +8,7 @@ tortoise-orm = {extras = ["asyncpg"], version = "*"}
 aerich = "*"
 fastapi = "*"
 jinja2 = "*"
+uvicorn = "*"
 
 [dev-packages]
 
