@@ -4,14 +4,15 @@ from tortoise.fields import (CharField, DatetimeField, ForeignKeyField, IntField
 
 class Host(Model):
     id = IntField(pk=True)
-    hostname = CharField(256, null=False)  # Actually the user agent.
+    hostname = CharField(256, null=False)
+    created_on = DatetimeField(null=False, auto_now_add=True)
 
     sessions: ReverseRelation["Session"]
 
 
 class Session(Model):
     id = IntField(pk=True)
-    host = ForeignKeyField("models.Host", related_name="sessions", on_delete="CASCADE", index=True)
+    host = ForeignKeyField("models.Host", related_name="sessions", on_delete="CASCADE", index=True, null=False)
     created_on = DatetimeField(null=False, auto_now_add=True)
 
     items: ReverseRelation["SessionItem"]
