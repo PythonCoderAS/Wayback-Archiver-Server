@@ -3,9 +3,8 @@ from typing import Optional
 from fastapi import HTTPException
 
 from .. import app
-from ..models import GeneratedSession, SessionInput
 from ..models.error import ErrorModel
-from ..models.session import SessionListPaginationResponse
+from ..models.session import GeneratedSession, SessionInput, SessionListPaginationResponse
 from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagination_params, validate_pagination
 from ...models import Host, Session
 
@@ -18,7 +17,7 @@ async def get_session(id: int):
     await session.fetch_related("host")
     return GeneratedSession(
         session_id=session.id,
-        host_id=session.host.id,
+        host_id=session.host_id,
         created_at=session.created_on.timestamp(),
     )
 
@@ -52,7 +51,7 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
         generated_sessions = [
             GeneratedSession(
                 session_id=session.id,
-                host_id=session.host.id,
+                host_id=session.host_id,
                 created_at=session.created_on.timestamp(),
             )
             for session in sessions

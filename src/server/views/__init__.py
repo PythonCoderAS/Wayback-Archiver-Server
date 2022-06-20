@@ -1,4 +1,5 @@
 from .host import *
+from .item import *
 from .session import *
 
 try:

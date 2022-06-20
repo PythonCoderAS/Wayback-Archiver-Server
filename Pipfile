@@ -9,6 +9,7 @@ aerich = "*"
 fastapi = "*"
 jinja2 = "*"
 uvicorn = "*"
+validators = "*"
 
 [dev-packages]
 
