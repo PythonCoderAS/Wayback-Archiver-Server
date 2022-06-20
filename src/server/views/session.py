@@ -1,5 +1,6 @@
 from .. import app
 from ..models import GeneratedSession, SessionInput
+from ..models.session import SessionListPaginationResponse
 from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagination_params, validate_pagination
 from ...models import Host, Session
 
@@ -15,16 +16,17 @@ async def get_session(id: str):
     )
 
 
-@app.get("/api/sessions", response_model=PaginationResponse[GeneratedSession])
+@app.get("/api/sessions", response_model=SessionListPaginationResponse)
 async def get_sessions(after: int = 0, limit: int = 100):
     params = PaginationParams(after=after, limit=limit)
     validate_pagination(params)
     base_qs = apply_pagination_params(Session.all(), params)
     sessions = await base_qs.prefetch_related("host")
+    print(sessions)
     generated_sessions = [
         GeneratedSession(
             session_id=session.id,
-            host_id=session.host.name,
+            host_id=session.host.id,
             created_at=session.created_on.timestamp(),
         )
         for session in sessions

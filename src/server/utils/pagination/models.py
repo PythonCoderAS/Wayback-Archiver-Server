@@ -1,4 +1,4 @@
-from typing import Generic, Optional, TypeVar
+from typing import Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel
 
@@ -13,7 +13,7 @@ class PaginationResponse(BaseModel, Generic[T]):
     """
 
     """The data for the current page."""
-    data: T
+    data: List[T]
     """The total number of items available."""
     total: int
     """The number of items per page."""
@@ -22,7 +22,7 @@ class PaginationResponse(BaseModel, Generic[T]):
     next: Optional[int] = None
 
     @classmethod
-    def from_params(cls, params: PaginationParams, data: T, total: int) -> "PaginationResponse[T]":
+    def from_params(cls, params: PaginationParams, data: List[T], total: int) -> "PaginationResponse[T]":
         """
         Create a pagination response from a pagination params.
         """
@@ -34,3 +34,8 @@ class PaginationResponse(BaseModel, Generic[T]):
         if params.after + params.limit < total:
             retval.next = params.after + params.limit
         return retval
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
