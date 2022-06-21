@@ -32,9 +32,9 @@
         </tr>
     {% endfor %}
             <tr class="border border-slate-500">
-            <td class="mx-auto">{% if data.previous is not none %}<a href="?after={{ data.previous }}&limit={{ data.limit }}" class="text-blue-500">Previous</a>{% endif %}</td>
+            <td class="mx-auto">{% if data.previous is not none and data.limit %}<a href="?after={{ data.previous }}&limit={{ data.limit }}" class="text-blue-500">Previous</a>{% endif %}</td>
             <td class="mx-auto" colspan="3">Displaying {{ data.data.__len__() }} out of {{ data.total }} items</td>
-            <td class="mx-auto">{% if data.next is not none %}<a href="?after={{ data.next }}&limit={{ data.next }}" class="text-blue-500">Next</a>{% endif %}</td>
+            <td class="mx-auto">{% if data.next is not none and data.limit %}<a href="?after={{ data.next }}&limit={{ data.next }}" class="text-blue-500">Next</a>{% endif %}</td>
         </tr>
     </tbody>
 </table>
