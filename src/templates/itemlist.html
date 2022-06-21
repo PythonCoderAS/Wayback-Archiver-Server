@@ -26,8 +26,8 @@
         <tr class="border border-slate-500">
             <td class="mx-auto"><a href="../item/{{ item.id }}" class="text-blue-500">{{ item.id }}</a></td>
             <td class="mx-auto"><a href="{{ item.url }}" rel="noopener" target="_blank" class="text-blue-500">{{ item.url }}</a></td>
-            <td class="mx-auto"><a href="../item/{{ item.session_id }}" class="text-blue-500">{{ item.session_id }}</a></td>
-            <td class="mx-auto"><a href="../item/{{ item.host_id }}" class="text-blue-500">{{ item.host_id }}</a></td>
+            <td class="mx-auto"><a href="../session/{{ item.session_id }}" class="text-blue-500">{{ item.session_id }}</a></td>
+            <td class="mx-auto"><a href="../host/{{ item.host_id }}" class="text-blue-500">{{ item.host_id }}</a></td>
             <td class="mx-auto">{{ item.created_on }}</td>
         </tr>
     {% endfor %}
