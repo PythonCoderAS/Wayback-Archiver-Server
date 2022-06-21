@@ -71,4 +71,4 @@ async def create_session(session_input: SessionInput):
     """
     host, created = await Host.get_or_create(hostname=session_input.hostname)
     session = await Session.create(host=host)
-    return GeneratedSession(session_id=session.id, host_id=host.id, created_on=session.created_on.timestamp())
+    return GeneratedSession(session_id=session.id, host_id=host.id, created_on=session.created_on.timestamp(), items=0)
