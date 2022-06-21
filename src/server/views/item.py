@@ -10,7 +10,7 @@ from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagin
 from ...models import Session, SessionItem
 
 
-@app.get("/api/item", response_model=GeneratedItem, responses={404: {"model": ErrorModel}})
+@app.get("/api/item/{id}", response_model=GeneratedItem, responses={404: {"model": ErrorModel}})
 async def get_item(id: int):
     item = await SessionItem.get_or_none(id=id)
     if item is None:

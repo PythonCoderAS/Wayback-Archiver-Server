@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import HTTPException
+from tortoise.functions import Sum
 
 from .. import app
 from ..models.error import ErrorModel
@@ -9,16 +10,16 @@ from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagin
 from ...models import Host, Session
 
 
-@app.get("/api/session", response_model=GeneratedSession, responses={404: {"model": ErrorModel}})
+@app.get("/api/session/{id}", response_model=GeneratedSession, responses={404: {"model": ErrorModel}})
 async def get_session(id: int):
-    session = await Session.get_or_none(id=id)
+    session = await Session.get_or_none(id=id).prefetch_related("host").annotate(count=Sum("items"))
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found.")
-    await session.fetch_related("host")
     return GeneratedSession(
         session_id=session.id,
         host_id=session.host_id,
         created_on=session.created_on.timestamp(),
+        items=session.count or 0
     )
 
 
@@ -47,12 +48,13 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
         true_base = true_base.filter(host_id=host_id)
     if limit != 0:
         base_qs = apply_pagination_params(true_base, params)
-        sessions = await base_qs.prefetch_related("host")
+        sessions = await base_qs.prefetch_related("host").annotate(count=Sum("items"))
         generated_sessions = [
             GeneratedSession(
                 session_id=session.id,
                 host_id=session.host_id,
                 created_on=session.created_on.timestamp(),
+                items=session.count or 0
             )
             for session in sessions
         ]

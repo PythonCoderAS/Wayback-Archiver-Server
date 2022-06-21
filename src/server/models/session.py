@@ -13,6 +13,7 @@ class SessionInput(BaseModel):
 class GeneratedSession(BaseModel):
     session_id: int
     host_id: int
+    items: int
     created_on: datetime
 
 
