@@ -92,7 +92,7 @@
     </table>
 {% endmacro %}
 
-{% macro footernav(data) %}
+{% macro listingfooternav(data) %}
     <hr/>
     <footer class="footer-container">
         <span>{% if data.previous is not none and data.limit %}
@@ -100,5 +100,14 @@
         <span class="center">Displaying <b>{{ data.data.__len__() }}</b> out of {{ data.total }} items</span>
         <span>{% if data.next is not none and data.limit %}
             <a href="?after={{ data.next }}&limit={{ data.limit }}">Next</a>{% endif %}</span>
+    </footer>
+{% endmacro %}
+
+{% macro itemfooternav(id, count) %}
+    <hr/>
+    <footer class="footer-container">
+        <span>{% if id - 1 > 0 %}<a href="{{ id - 1 }}">Previous</a>{% endif %}</span>
+        <span class="center">Displaying <b>1</b> out of {{ count }} items</span>
+        <span>{% if id + 1 <= count %}<a href="{{ id + 1 }}">Next</a>{% endif %}</span>
     </footer>
 {% endmacro %}
