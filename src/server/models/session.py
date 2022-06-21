@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -12,7 +13,7 @@ class SessionInput(BaseModel):
 class GeneratedSession(BaseModel):
     session_id: int
     host_id: int
-    created_at: float
+    created_on: datetime
 
 
 class SessionListPaginationResponse(PaginationResponse[GeneratedSession]):

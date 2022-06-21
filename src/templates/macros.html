@@ -1,0 +1,21 @@
+{% macro header(name) %}
+    <header class="mx-4">
+        <p class="text-xl">Wayback Archiver Server</p>
+        <p class="text-lg text-center">{{ name }}</p>
+        <hr class="my-2 border-slate-800"/>
+    </header>
+{% endmacro %}
+
+{% macro keyvaltable(data) %}
+    <table style="min-width:50%" class="mx-auto table-auto border border-slate-500 border-collapse">
+        <caption class="font-bold">Input Parameters</caption>
+        <tbody>
+        {% for key, value in data.items() %}
+            <tr class="border border-slate-300">
+                <td class="font-semibold p-2">{{ key.title() }}</td>
+                <td class="p-2">{{ value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

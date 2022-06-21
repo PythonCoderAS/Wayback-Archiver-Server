@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -15,7 +16,7 @@ class GeneratedItem(BaseModel):
     session_id: int
     host_id: int
     url: str
-    created_at: float
+    created_on: datetime
 
 
 class ItemListPaginationResponse(PaginationResponse[GeneratedItem]):

@@ -20,7 +20,7 @@ async def get_item(id: int):
         id=item.id,
         session_id=item.session.id,
         host_id=item.session.host_id,
-        created_at=item.created_on.timestamp(),
+        created_on=item.created_on.timestamp(),
         url=item.url
     )
 
@@ -59,7 +59,7 @@ async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = N
                 id=item.id,
                 session_id=item.session.id,
                 host_id=item.session.host_id,
-                created_at=item.created_on.timestamp(),
+                created_on=item.created_on,
                 url=item.url
             )
             for item in items
@@ -90,6 +90,6 @@ async def create_item(item_input: ItemInput):
         id=item.id,
         session_id=item.session.id,
         host_id=item.session.host_id,
-        created_at=item.created_on.timestamp(),
+        created_on=item.created_on.timestamp(),
         url=item.url
     )

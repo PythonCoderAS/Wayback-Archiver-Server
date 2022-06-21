@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ query_params.after + 1 }} - {{ query_params.after + query_params.limit }}:
+        Item List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+{% import "macros.html" as macros %}
+{{ macros.header("Item List") }}
+{{ macros.keyvaltable(query_params) }}
+<table class="my-3 container mx-auto table-auto border border-slate-700 border-collapse">
+    <caption class="font-bold">Listing</caption>
+    <thead>
+    <tr class="border font-bold border-slate-500">
+        <th>ID</th>
+        <th>URL</th>
+        <th>Session ID</th>
+        <th>Host ID</th>
+        <th>Created On</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in data.data %}
+        <tr class="border border-slate-500">
+            <td class="mx-auto"><a href="../item/{{ item.id }}" class="text-blue-500">{{ item.id }}</a></td>
+            <td class="mx-auto"><a href="{{ item.url }}" rel="noopener" target="_blank" class="text-blue-500">{{ item.url }}</a></td>
+            <td class="mx-auto"><a href="../item/{{ item.session_id }}" class="text-blue-500">{{ item.session_id }}</a></td>
+            <td class="mx-auto"><a href="../item/{{ item.host_id }}" class="text-blue-500">{{ item.host_id }}</a></td>
+            <td class="mx-auto">{{ item.created_on }}</td>
+        </tr>
+    {% endfor %}
+            <tr class="border border-slate-500">
+            <td class="mx-auto">{% if data.previous is not none %}<a href="?after={{ data.previous }}&limit={{ data.limit }}" class="text-blue-500">Previous</a>{% endif %}</td>
+            <td class="mx-auto" colspan="3">Displaying {{ data.data.__len__() }} out of {{ data.total }} items</td>
+            <td class="mx-auto">{% if data.next is not none %}<a href="?after={{ data.next }}&limit={{ data.next }}" class="text-blue-500">Next</a>{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

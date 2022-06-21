@@ -20,6 +20,8 @@ class PaginationResponse(BaseModel, Generic[T]):
     limit: int
     """The next offset to use for `after=x`."""
     next: Optional[int] = None
+    """The previous offset to use for `after=x`."""
+    previous: Optional[int] = None
 
     @classmethod
     def from_params(cls, params: PaginationParams, data: List[T], total: int) -> "PaginationResponse[T]":
@@ -33,6 +35,8 @@ class PaginationResponse(BaseModel, Generic[T]):
         )
         if params.after + params.limit < total:
             retval.next = params.after + params.limit
+        if params.after - params.limit >= 0:
+            retval.previous = params.after - params.limit
         return retval
 
     def __init__(self, *args, **kwargs):

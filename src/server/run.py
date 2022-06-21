@@ -1,3 +1,4 @@
 """Serves as the main file for running the API."""
-from .views import * # noqa
-from . import app # noqa
+from . import app  # noqa
+from .html import *  # noqa
+from .views import *  # noqa

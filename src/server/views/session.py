@@ -18,7 +18,7 @@ async def get_session(id: int):
     return GeneratedSession(
         session_id=session.id,
         host_id=session.host_id,
-        created_at=session.created_on.timestamp(),
+        created_on=session.created_on.timestamp(),
     )
 
 
@@ -52,7 +52,7 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
             GeneratedSession(
                 session_id=session.id,
                 host_id=session.host_id,
-                created_at=session.created_on.timestamp(),
+                created_on=session.created_on.timestamp(),
             )
             for session in sessions
         ]
@@ -69,4 +69,4 @@ async def create_session(session_input: SessionInput):
     """
     host, created = await Host.get_or_create(hostname=session_input.hostname)
     session = await Session.create(host=host)
-    return GeneratedSession(session_id=session.id, host_id=host.id, created_at=session.created_on.timestamp())
+    return GeneratedSession(session_id=session.id, host_id=host.id, created_on=session.created_on.timestamp())
