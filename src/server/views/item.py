@@ -53,7 +53,7 @@ async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = N
         true_base = true_base.filter(session__id=session_id)
     if limit != 0:
         base_qs = apply_pagination_params(true_base, params)
-        items = await base_qs.prefetch_related("session")
+        items = await base_qs.prefetch_related("session").order_by("id")
         generated_items = [
             GeneratedItem(
                 id=item.id,

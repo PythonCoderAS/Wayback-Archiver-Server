@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% import "macros.html" as macros %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ query_params.after + 1 }} - {{ query_params.after + query_params.limit }}:
+        Host List</title>
+    {{ macros.stylesheet() }}
+</head>
+<body>
+{{ macros.header("Host List") }}
+{{ macros.keyvaltable(query_params) }}
+<table>
+    <caption>Listing</caption>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Created On</th>
+        <th># of Items</th>
+        <th># of Sessions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for host in data.data %}
+        <tr>
+            <td>
+                <a href="../host/{{ host.id }}">{{ host.id }}</a>
+            </td>
+            <td>{{ host.created_on }}</td>
+            <td>
+                <a href="../items?host_id={{ host.id }}">{{ host.items }}</a>
+            </td>
+        <td>
+                <a href="../sessions?host_id={{ host.id }}">{{ host.sessions }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ macros.listingfooternav(data) }}
+</body>
+</html>

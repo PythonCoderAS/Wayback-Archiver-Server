@@ -1,7 +1,7 @@
 from typing import Optional
 
 from fastapi import HTTPException
-from tortoise.functions import Sum
+from tortoise.functions import Count
 
 from .. import app
 from ..models.error import ErrorModel
@@ -12,7 +12,7 @@ from ...models import Host, Session
 
 @app.get("/api/session/{id}", response_model=GeneratedSession, responses={404: {"model": ErrorModel}})
 async def get_session(id: int):
-    session = await Session.get_or_none(id=id).prefetch_related("host").annotate(count=Sum("items"))
+    session = await Session.get_or_none(id=id).prefetch_related("host").annotate(count=Count("items"))
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found.")
     return GeneratedSession(
@@ -48,7 +48,7 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
         true_base = true_base.filter(host_id=host_id)
     if limit != 0:
         base_qs = apply_pagination_params(true_base, params)
-        sessions = await base_qs.prefetch_related("host").annotate(count=Sum("items"))
+        sessions = await base_qs.prefetch_related("host").annotate(count=Count("items")).order_by("id")
         generated_sessions = [
             GeneratedSession(
                 session_id=session.id,

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% import "macros.html" as macros %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ query_params.after + 1 }} - {{ query_params.after + query_params.limit }}:
+        Session List</title>
+    {{ macros.stylesheet() }}
+</head>
+<body>
+{{ macros.header("Session List") }}
+{{ macros.keyvaltable(query_params) }}
+<table>
+    <caption>Listing</caption>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Host ID</th>
+        <th>Created On</th>
+        <th># of Items</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for session in data.data %}
+        <tr>
+            <td>
+                <a href="../session/{{ session.session_id }}">{{ session.session_id }}</a>
+            </td>
+            <td><a href="../host/{{ session.host_id }}">{{ session.host_id }}</a></td>
+            <td>{{ session.created_on }}</td>
+            <td>
+                <a href="../items?session_id={{ session.session_id }}">{{ session.items }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ macros.listingfooternav(data) }}
+</body>
+</html>

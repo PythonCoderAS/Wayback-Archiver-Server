@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% import "macros.html" as macros %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Host #{{ host.id }}</title>
+    {{ macros.stylesheet() }}
+</head>
+<body>
+{{ macros.header("Host #" ~ host.id) }}
+<ul>
+    <li>Created On: <b>{{ host.created_on }}</b></li>
+    <li># of items: <b>{{ host.items }}</b></li>
+    <li># of sessions: <b>{{ host.sessions }}</b></li>
+</ul>
+<b>Other Links:</b>
+<ul>
+    <li> <a href="../items?host_id={{ host.id }}">Items Belonging to Host</a></li>
+    <li> <a href="../sessions?host_id={{ host.id }}">Sessions Belonging to Host</a></li>
+</ul>
+{{ macros.itemfooternav(host.id, total) }}
+</body>
+</html>

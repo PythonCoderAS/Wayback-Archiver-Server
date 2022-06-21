@@ -7,7 +7,7 @@ from ....views import get_items
 from .....server import app, templates
 
 
-@app.get("/item/list", response_class=HTMLResponse, include_in_schema=False)
+@app.get("/items", response_class=HTMLResponse, include_in_schema=False)
 async def item_list_html(request: Request, after: int = 0, limit: int = 100, host_id: Optional[int] = None,
                          session_id: Optional[int] = None):
     data = await get_items(after, limit, host_id, session_id)
