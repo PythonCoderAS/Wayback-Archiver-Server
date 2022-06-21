@@ -25,7 +25,7 @@
     {% for item in data.data %}
         <tr>
             <td><a href="../item/{{ item.id }}">{{ item.id }}</a></td>
-            <td><a href="{{ item.url }}" rel="noopener" target="_blank">{{ item.url }}</a></td>
+            <td><a href="{{ item.url }}" rel="noopener" target="_blank" style="display: inline-block; word-wrap: anywhere">{{ item.url }}</a></td>
             <td><a href="../session/{{ item.session_id }}">{{ item.session_id }}</a></td>
             <td><a href="../host/{{ item.host_id }}">{{ item.host_id }}</a></td>
             <td>{{ item.created_on }}</td>
