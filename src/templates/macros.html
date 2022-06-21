@@ -1,21 +1,100 @@
+{% macro stylesheet() %}
+    <style>
+        body {
+            padding: 5px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        {# Copied from Bootstrap's font stack #}
+        }
+
+        header {
+            margin-bottom: 5px;
+        }
+
+        .header-container {
+            display: table;
+            width: 100%
+        }
+
+        .header-container > span {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .footer-container {
+            display: table;
+            width: 100%
+        }
+
+        .footer-container > span {
+            display: table-cell;
+            width: 33.33%;
+        }
+
+        table {
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th, caption, .bold {
+            font-weight: bold;
+        }
+
+        th, td {
+            border: 1px solid;
+            padding: 10px;
+        }
+
+        .website-name {
+            font-size: 150%;
+        }
+
+        .page-name {
+            font-size: 125%;
+        }
+
+        .keyval-table {
+            min-width: 25%;
+        }
+
+        .center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+{% endmacro %}
 {% macro header(name) %}
-    <header class="mx-4">
-        <p class="text-xl">Wayback Archiver Server</p>
-        <p class="text-lg text-center">{{ name }}</p>
-        <hr class="my-2 border-slate-800"/>
+    <header>
+        <div class="header-container">
+            <span class="website-name">Wayback Archiver Server</span>
+            <span class="page-name">{{ name }}</span>
+        </div>
+        <hr>
     </header>
 {% endmacro %}
 
 {% macro keyvaltable(data) %}
-    <table style="min-width:50%" class="mx-auto table-auto border border-slate-500 border-collapse">
-        <caption class="font-bold">Input Parameters</caption>
+    <table class="keyval-table">
+        <caption>Input Parameters</caption>
         <tbody>
         {% for key, value in data.items() %}
-            <tr class="border border-slate-300">
-                <td class="font-semibold p-2">{{ key.title() }}</td>
-                <td class="p-2">{{ value }}</td>
+            <tr>
+                <td class="bold">{{ key.title() }}</td>
+                <td>{{ value }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+{% endmacro %}
+
+{% macro footernav(data) %}
+    <hr/>
+    <footer class="footer-container">
+        <span>{% if data.previous is not none and data.limit %}
+            <a href="?after={{ data.previous }}&limit={{ data.limit }}">Previous</a>{% endif %}</span>
+        <span class="center">Displaying <b>{{ data.data.__len__() }}</b> out of {{ data.total }} items</span>
+        <span>{% if data.next is not none and data.limit %}
+            <a href="?after={{ data.next }}&limit={{ data.limit }}">Next</a>{% endif %}</span>
+    </footer>
 {% endmacro %}
