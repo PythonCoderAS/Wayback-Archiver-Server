@@ -92,14 +92,14 @@
     </table>
 {% endmacro %}
 
-{% macro listingfooternav(data) %}
+{% macro listingfooternav(data, query_params) %}
     <hr/>
     <footer class="footer-container">
         <span>{% if data.previous is not none and data.limit %}
-            <a href="?after={{ data.previous }}&limit={{ data.limit }}">Previous</a>{% endif %}</span>
+            <a href="?{{ urlencode(override_dict_values(query_params, after=data.previous, limit=data.limit)) }}">Previous</a>{% endif %}</span>
         <span class="center">Displaying <b>{{ data.data.__len__() }}</b> out of {{ data.total }} items</span>
         <span>{% if data.next is not none and data.limit %}
-            <a href="?after={{ data.next }}&limit={{ data.limit }}">Next</a>{% endif %}</span>
+            <a href="?{{ urlencode(override_dict_values(query_params, after=data.next, limit=data.limit)) }}">Next</a>{% endif %}</span>
     </footer>
 {% endmacro %}
 
