@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ query_params.after + 1 }} - {{ query_params.after + query_params.limit }}:
+    <title>{{ data.data[0].id }} - {{ data.data[-1].id }}:
         Host List</title>
     {{ macros.stylesheet() }}
 </head>

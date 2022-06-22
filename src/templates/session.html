@@ -3,11 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Session #{{ session.session_id }}</title>
+    <title>Session #{{ session.id }}</title>
     {{ macros.stylesheet() }}
 </head>
 <body>
-{{ macros.header("Session #" ~ session.session_id) }}
+{{ macros.header("Session #" ~ session.id) }}
 <ul>
     <li>Host ID: <b><a href="../host/{{ session.host_id }}">{{ session.host_id }}</a></b></li>
     <li>Created On: <b>{{ session.created_on }}</b></li>
@@ -15,8 +15,8 @@
 </ul>
 <b>Other Links:</b>
 <ul>
-    <li> <a href="../items?session_id={{ session.session_id }}">Items Belonging to Session</a></li>
+    <li> <a href="../items?session_id={{ session.id }}">Items Belonging to Session</a></li>
 </ul>
-{{ macros.itemfooternav(session.session_id, total) }}
+{{ macros.itemfooternav(session.id, total) }}
 </body>
 </html>

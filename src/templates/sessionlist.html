@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ query_params.after + 1 }} - {{ query_params.after + query_params.limit }}:
+    <title>{{ data.data[0].id }} - {{ data.data[-1].id }}:
         Session List</title>
     {{ macros.stylesheet() }}
 </head>
@@ -24,12 +24,12 @@
     {% for session in data.data %}
         <tr>
             <td>
-                <a href="../session/{{ session.session_id }}">{{ session.session_id }}</a>
+                <a href="../session/{{ session.id }}">{{ session.id }}</a>
             </td>
             <td><a href="../host/{{ session.host_id }}">{{ session.host_id }}</a></td>
             <td>{{ session.created_on }}</td>
             <td>
-                <a href="../items?session_id={{ session.session_id }}">{{ session.items }}</a>
+                <a href="../items?session_id={{ session.id }}">{{ session.items }}</a>
             </td>
         </tr>
     {% endfor %}

@@ -6,7 +6,8 @@ from tortoise.functions import Count
 from .. import app
 from ..models.error import ErrorModel
 from ..models.session import GeneratedSession, SessionInput, SessionListPaginationResponse
-from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagination_params, validate_pagination
+from ..utils.pagination import HasExtraPage, PaginationParams, PaginationResponse, apply_pagination_params, \
+    determine_next_and_previous, validate_pagination
 from ...models import Host, Session
 
 
@@ -16,7 +17,7 @@ async def get_session(id: int):
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found.")
     return GeneratedSession(
-        session_id=session.id,
+        id=session.id,
         host_id=session.host_id,
         created_on=session.created_on.timestamp(),
         items=session.count or 0
@@ -24,7 +25,7 @@ async def get_session(id: int):
 
 
 @app.get("/api/sessions", response_model=SessionListPaginationResponse, responses={400: {"model": ErrorModel}})
-async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] = None):
+async def get_sessions(after: Optional[int] = None, before: Optional[int] = None, limit: int = 100, host_id: Optional[int] = None):
     """
     Gets a list of sessions.
 
@@ -41,17 +42,18 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
     there is no next item, this will be `null`.
 
     """
-    params = PaginationParams(after=after, limit=limit)
+    params = PaginationParams(after=after, before=before, limit=limit)
     validate_pagination(params)
     true_base = Session.all()
     if host_id is not None:
         true_base = true_base.filter(host_id=host_id)
     if limit != 0:
         base_qs = apply_pagination_params(true_base, params)
-        sessions = await base_qs.prefetch_related("host").annotate(count=Count("items")).order_by("id")
+        sessions = await base_qs.prefetch_related("host").annotate(count=Count("items"))
+        extra_pages = determine_next_and_previous(sessions, params)
         generated_sessions = [
             GeneratedSession(
-                session_id=session.id,
+                id=session.id,
                 host_id=session.host_id,
                 created_on=session.created_on.timestamp(),
                 items=session.count or 0
@@ -60,8 +62,9 @@ async def get_sessions(after: int = 0, limit: int = 100, host_id: Optional[int] 
         ]
     else:
         generated_sessions = []
+        extra_pages = HasExtraPage()
     count = await true_base.count()
-    return PaginationResponse.from_params(params, generated_sessions, count)
+    return PaginationResponse.from_params(params, generated_sessions, count, extra_pages)
 
 
 @app.post("/api/session", response_model=GeneratedSession, status_code=201)
@@ -71,4 +74,4 @@ async def create_session(session_input: SessionInput):
     """
     host, created = await Host.get_or_create(hostname=session_input.hostname)
     session = await Session.create(host=host)
-    return GeneratedSession(session_id=session.id, host_id=host.id, created_on=session.created_on.timestamp(), items=0)
+    return GeneratedSession(id=session.id, host_id=host.id, created_on=session.created_on.timestamp(), items=0)

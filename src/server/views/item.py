@@ -6,7 +6,8 @@ from validators import url
 from .. import app
 from ..models.error import ErrorModel
 from ..models.item import GeneratedItem, ItemInput, ItemListPaginationResponse
-from ..utils.pagination import PaginationParams, PaginationResponse, apply_pagination_params, validate_pagination
+from ..utils.pagination import HasExtraPage, PaginationParams, PaginationResponse, apply_pagination_params, \
+    determine_next_and_previous, validate_pagination
 from ...models import Session, SessionItem
 
 
@@ -26,7 +27,7 @@ async def get_item(id: int):
 
 
 @app.get("/api/items", response_model=ItemListPaginationResponse, responses={400: {"model": ErrorModel}})
-async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = None, session_id: Optional[int] = None):
+async def get_items(after: Optional[int] = None, before: Optional[int] = None, limit: int = 100, host_id: Optional[int] = None, session_id: Optional[int] = None):
     """
     Gets a list of items.
 
@@ -44,7 +45,7 @@ async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = N
     there is no next item, this will be `null`.
 
     """
-    params = PaginationParams(after=after, limit=limit)
+    params = PaginationParams(after=after, before=before, limit=limit)
     validate_pagination(params)
     true_base = SessionItem.all()
     if host_id is not None:
@@ -53,7 +54,8 @@ async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = N
         true_base = true_base.filter(session__id=session_id)
     if limit != 0:
         base_qs = apply_pagination_params(true_base, params)
-        items = await base_qs.prefetch_related("session").order_by("id")
+        items = await base_qs.prefetch_related("session")
+        extra_pages = determine_next_and_previous(items, params)
         generated_items = [
             GeneratedItem(
                 id=item.id,
@@ -66,8 +68,9 @@ async def get_items(after: int = 0, limit: int = 100, host_id: Optional[int] = N
         ]
     else:
         generated_items = []
+        extra_pages = HasExtraPage()
     count = await true_base.count()
-    return PaginationResponse.from_params(params, generated_items, count)
+    return PaginationResponse.from_params(params, generated_items, count, extra_pages)
 
 
 @app.post("/api/item", response_model=GeneratedItem, status_code=201, responses={404: {"model": ErrorModel}, 400: {"model": ErrorModel}})
