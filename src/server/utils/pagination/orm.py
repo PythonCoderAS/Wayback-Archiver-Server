@@ -42,22 +42,22 @@ def determine_next_and_previous(items: List[T], params: PaginationParams) -> Has
     `apply_pagination_params`.
     """
     item_length = len(items)
-    if item_length > params.limit:
-        if params.before:
-            if items[0].id >= params.before:
-                if item_length == params.limit + 2:
-                    return HasExtraPage(next_page=True, previous_page=True)
-                else:
-                    return HasExtraPage(next_page=True, previous_page=False)
+    if params.before:
+        if items[0].id >= params.before:
+            if item_length == params.limit + 2:
+                return HasExtraPage(next_page=True, previous_page=True)
+            else:
+                return HasExtraPage(next_page=True, previous_page=False)
+        else:
+            if item_length > params.limit:
+                return HasExtraPage(next_page=False, previous_page=True)
+    else:
+        if items[0].id <= params.after:
+            if item_length == params.limit + 2:
+                return HasExtraPage(next_page=True, previous_page=True)
             else:
                 return HasExtraPage(next_page=False, previous_page=True)
         else:
-            if items[0].id <= params.after:
-                if item_length == params.limit + 2:
-                    return HasExtraPage(next_page=True, previous_page=True)
-                else:
-                    return HasExtraPage(next_page=False, previous_page=True)
-            else:
+            if item_length > params.limit:
                 return HasExtraPage(next_page=True, previous_page=False)
-    else:
-        return HasExtraPage(next_page=False, previous_page=False)
+    return HasExtraPage(next_page=False, previous_page=False)
