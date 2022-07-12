@@ -223,11 +223,11 @@
         },
         "pypika-tortoise": {
             "hashes": [
-                "sha256:23d993558e3005ac7f7f2865d9add3d8168097f45246f8844fa46d6682a99d90",
-                "sha256:2e2f747bfc645a25e097485651278cd7d920b709686ce54e43387ba1c9294048"
+                "sha256:2d68bbb7e377673743cff42aa1059f3a80228d411fbcae591e4465e173109fd8",
+                "sha256:d802868f479a708e3263724c7b5719a26ad79399b2a70cea065f4a4cadbebf36"
             ],
             "markers": "python_version >= '3.7' and python_version < '4.0'",
-            "version": "==0.1.5"
+            "version": "==0.1.6"
         },
         "pytz": {
             "hashes": [
@@ -265,11 +265,11 @@
                 "asyncpg"
             ],
             "hashes": [
-                "sha256:0ff278d76bec2e41beb14ea63f99ea6d473ee9d50fef68224a51954e5b38d39f",
-                "sha256:a89fef639d24cfabf1bcc43eb0b4657dbe9c277d01378a90eb2d370fb9dc03dd"
+                "sha256:a99b8c9f42d5cd49493c70471b5c9a5df8ecf49cc624f2f41b9dc75bba993ac5",
+                "sha256:bff4d79abfca7fb805972bb2438e8e0cd2e6590bc2cfd7593a803518a027bbf0"
             ],
             "index": "pypi",
-            "version": "==0.19.1"
+            "version": "==0.19.2"
         },
         "typing-extensions": {
             "hashes": [
