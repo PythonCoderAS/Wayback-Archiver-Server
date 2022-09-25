@@ -18,11 +18,11 @@
     "default": {
         "aerich": {
             "hashes": [
-                "sha256:96ac087922048470687264125cb9dfeaade982219c78e6a9b91a0fb67eaa1cd1",
-                "sha256:d45f98214ed54b8ec9be949df264c5b0b9e8b79d8f8ba9e68714675bc81a5574"
+                "sha256:4f53e59686af214b8de15796500eea928c3cf5d2a6dbf7596447e90e41356079",
+                "sha256:6563fb4385eb7fef689f8fe006a4cf866c22f86eda957d48308d1eb645b458a7"
             ],
             "index": "pypi",
-            "version": "==0.6.3"
+            "version": "==0.7.0"
         },
         "aiosqlite": {
             "hashes": [
