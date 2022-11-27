@@ -280,6 +280,7 @@
                 "sha256:bff4d79abfca7fb805972bb2438e8e0cd2e6590bc2cfd7593a803518a027bbf0"
             ],
             "index": "pypi",
+            "markers": null,
             "version": "==0.19.2"
         },
         "typing-extensions": {
